@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0B0D">
+<title>Projeto 30 Dias — Organize sua Vida</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0B0D;--bg2:#13171C;--card:#14181E;--line:#2A313B;--text:#F2F4F7;--mute:#A0A9B5;--dim:#5E6672;--acc:#19F08C;--field:#0E1115;
+--f:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;background:linear-gradient(180deg,var(--bg2),var(--bg) 60%) fixed;color:var(--text);font-family:var(--f);font-weight:300;font-size:16px;line-height:1.6;min-height:100vh}
+#app{max-width:560px;margin:0 auto;padding:0 20px calc(110px + env(safe-area-inset-bottom))}
+a{color:var(--acc)}
+h1,h2,h3{font-weight:700;line-height:1.2;margin:0}
+.kicker{font-size:11px;letter-spacing:.18em;color:var(--acc);font-weight:500;text-transform:uppercase;margin:26px 0 12px}
+.h1{font-size:30px;margin:0 0 16px}
+.h2{font-size:22px;margin:0 0 12px}
+.lead{font-size:17px;font-weight:500}
+.sec{font-size:11px;letter-spacing:.16em;color:var(--acc);font-weight:500;text-transform:uppercase;margin:26px 0 10px}
+p{margin:0 0 14px}
+.mute{color:var(--mute)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:0 0 14px}
+.card.edge{border-left:3px solid var(--acc)}
+.card .t{font-size:11px;letter-spacing:.16em;color:var(--acc);font-weight:500;text-transform:uppercase;margin-bottom:6px}
+.quote{border-left:3px solid var(--acc);padding:2px 0 2px 16px;margin:18px 0;font-style:italic;font-size:18px;font-weight:300;line-height:1.5}
+.quote small{display:block;font-style:normal;font-size:10px;letter-spacing:.16em;color:var(--mute);margin-top:6px;text-transform:uppercase}
+.hero{position:relative;margin:0 -20px;height:min(62vh,430px);background-size:cover;background-position:center bottom}
+.hero.full{height:min(78vh,560px)}
+.hero:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:35%;background:linear-gradient(transparent,var(--bg))}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 26px;border-radius:999px;background:var(--acc);color:#04120B;font:600 13px var(--f);letter-spacing:.12em;text-transform:uppercase;border:0;text-decoration:none;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--acc);border:1px solid var(--acc)}
+.btn.small{min-height:40px;padding:0 18px;font-size:11px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.center{text-align:center}
+label.lab{display:block;font-size:13px;color:var(--mute);margin:16px 0 6px}
+input[type=text],input[type=number],input[inputmode],textarea{width:100%;background:var(--field);border:1px solid var(--line);border-radius:10px;color:var(--text);font:400 16px var(--f);padding:12px 14px;outline:none}
+textarea{min-height:110px;resize:vertical}
+input:focus,textarea:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(25,240,140,.12)}
+.money{display:flex;align-items:center;gap:8px}
+.money span{color:var(--mute);font-size:14px}
+.money input{text-align:right}
+.ro{opacity:.85;border-style:dashed}
+/* checkbox real e grande para toque */
+label.ck{display:flex;align-items:center;gap:14px;min-height:52px;padding:6px 0;cursor:pointer;font-size:16px;font-weight:400;user-select:none}
+label.ck input{position:absolute;opacity:0;width:1px;height:1px}
+label.ck .box{flex:0 0 28px;width:28px;height:28px;border:2px solid var(--acc);border-radius:7px;background:var(--field);display:grid;place-items:center;transition:.15s}
+label.ck .box:after{content:"";width:8px;height:15px;border:solid #04120B;border-width:0 3px 3px 0;transform:rotate(45deg) scale(0);margin-top:-3px;transition:.15s}
+label.ck input:checked + .box{background:var(--acc)}
+label.ck input:checked + .box:after{transform:rotate(45deg) scale(1)}
+label.ck input:focus-visible + .box{box-shadow:0 0 0 3px rgba(25,240,140,.35)}
+label.ck.big{background:var(--card);border:1px solid var(--acc);border-radius:14px;padding:12px 16px;margin:18px 0;font-weight:600}
+.bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--acc);border-radius:3px;transition:width .3s}
+.segs{display:grid;grid-template-columns:repeat(30,1fr);gap:2px;margin:10px 0 4px}
+.segs i{height:5px;background:var(--line);border-radius:1px}.segs i.on{background:var(--acc)}
+.grid30{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0}
+.grid30 a{display:grid;place-items:center;aspect-ratio:1;border-radius:12px;background:var(--card);border:1px solid var(--line);color:var(--text);text-decoration:none;font-weight:500;font-size:15px}
+.grid30 a.done{background:var(--acc);color:#04120B;border-color:var(--acc);font-weight:700}
+.list a{display:flex;justify-content:space-between;align-items:center;padding:14px 2px;border-bottom:1px solid var(--line);color:var(--text);text-decoration:none;font-weight:400}
+.list a:after{content:"›";color:var(--acc);font-size:22px}
+.trk{margin-bottom:18px}
+.trk .g{display:grid;grid-template-columns:repeat(6,1fr);gap:6px 4px}
+.trk .c{display:flex;flex-direction:column;align-items:center;font-size:10px;color:var(--mute)}
+.trk label.ck{min-height:0;padding:0;gap:0}
+.trk label.ck .box{width:34px;height:34px;flex-basis:34px}
+.steps{counter-reset:s}
+.steps li{list-style:none;counter-increment:s;display:flex;gap:14px;align-items:flex-start;margin:0 0 16px}
+.steps li:before{content:counter(s);flex:0 0 30px;height:30px;border:1.5px solid var(--acc);color:var(--acc);border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:13px;margin-top:2px}
+.steps{padding:0;margin:0}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(10,11,13,.92);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+.nav .in{max-width:560px;margin:0 auto;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.nav .mid{font-size:11px;color:var(--dim);letter-spacing:.1em;text-align:center;flex:1}
+.top{position:sticky;top:0;z-index:15;background:rgba(10,11,13,.9);backdrop-filter:blur(10px);margin:0 -20px;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.top a{color:var(--acc);text-decoration:none;font-weight:500}
+.imp{min-height:calc(100vh - 120px);display:flex;flex-direction:column;justify-content:flex-end;text-align:center;padding-bottom:20px}
+.imp .ph{font-size:22px;font-style:italic;font-weight:300;line-height:1.55;margin:10px 0 20px}
+.imp .next{font-size:11px;letter-spacing:.2em;color:var(--dim)}
+.imp .nm{font-size:24px;font-weight:700;color:var(--acc);margin:4px 0 22px}
+.big30{font-size:72px;font-weight:700;color:var(--acc);line-height:1}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--acc);color:#04120B;padding:10px 18px;border-radius:999px;font-weight:600;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:30}
+.toast.show{opacity:1}
+.warn{background:#2a1f10;border:1px solid #6b4a1a;color:#ffd9a0;border-radius:12px;padding:12px 14px;font-size:13px;margin:12px 0}
+.q4{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.q4 textarea{min-height:150px}
+.pbar{display:grid;grid-template-columns:90px 1fr 36px;gap:10px;align-items:center;margin:6px 0;font-size:13px}
+@media print{.nav,.top,.toast,.btn{display:none!important}body{background:#fff;color:#000}.card{border-color:#999;background:#fff}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="toast" id="toast">Salvo</div>
+<script>
+const D = {"MODULOS": [{"n": 1, "nome": "DIAGNÓSTICO", "scene": "dawn", "frase": "Você não pode organizar o que ainda não enxergou.", "autor": "Reflexão", "intro": "Antes de mudar qualquer coisa, olhe para onde você está. Sem julgamento. Sem culpa. Só fatos.", "simples": "Diagnóstico não é sentença. É um retrato de hoje. Ele mostra onde estão o seu tempo, o seu dinheiro e a sua energia.", "exemplo": "Marina achava que \"não tinha tempo\". Ao anotar uma semana inteira, descobriu 1h30 por dia perdida em notificações e trocas de aplicativo.", "campos": [["Em que área da minha vida estou mais desorganizado(a)?", 44], ["O que mais me incomoda hoje?", 44], ["O que já funciona e quero manter?", 44], ["Nota de 0 a 10 para minha organização atual", 26]], "checks": ["Respondi com honestidade", "Escolhi uma área para melhorar primeiro", "Li minhas respostas em voz alta"], "reflexao": "Se nada mudar nos próximos 30 dias, como estarei? E se eu fizer minha parte?", "acao": "Escreva a área escolhida em um papel e deixe onde você veja todos os dias.", "fecho": "Ver com clareza já é o primeiro passo."}, {"n": 2, "nome": "METAS", "scene": "mountain", "frase": "Meta sem primeiro passo é só um desejo bem escrito.", "autor": "Reflexão", "intro": "Um objetivo claro funciona como um farol. Ele não anda por você, mas mostra a direção.", "simples": "Uma boa meta é específica, tem prazo e tem um primeiro passo pequeno. Quanto mais concreta, menos espaço para adiar.", "exemplo": "\"Quero ser mais saudável\" virou \"caminhar 20 minutos, 4 vezes por semana, nas próximas 4 semanas\". Mesma vontade, outro resultado.", "campos": [["Minha principal meta", 44], ["Por que isso é importante?", 44], ["Primeiro passo", 44], ["Prazo", 26]], "checks": ["Escrevi minha meta com clareza", "Defini um prazo realista", "Defini o primeiro passo"], "reflexao": "O que eu faria hoje se já estivesse comprometido(a) com essa meta?", "acao": "Faça o primeiro passo em até 24 horas, mesmo que seja pequeno.", "fecho": "Meta clara, caminho possível."}, {"n": 3, "nome": "FINANÇAS", "scene": "growth", "frase": "O dinheiro que você não acompanha costuma desaparecer em silêncio.", "autor": "Reflexão", "intro": "Controle financeiro não é sobre ganhar muito. É sobre saber para onde o que você ganha está indo.", "simples": "Cada pessoa tem uma realidade. Por isso não existe uma regra única. O ponto de partida é enxergar renda, gastos e dívidas com números reais.", "exemplo": "Carlos ganhava o mesmo todo mês e sempre faltava no fim. Ao somar pequenos gastos \"invisíveis\", encontrou R$ 280 por mês que ninguém tinha decidido gastar.", "campos": [["Minha renda mensal aproximada (R$)", 26], ["Meu maior gasto fixo (R$)", 26], ["Onde mais gasto sem perceber?", 44], ["Uma decisão financeira que vou tomar", 44]], "checks": ["Listei minha renda", "Listei meus gastos principais", "Identifiquei um desperdício"], "reflexao": "Meus gastos de hoje combinam com o que eu digo que é importante?", "acao": "Use o Planner Financeiro nas próximas páginas e preencha com calma.", "fecho": "Não existe regra única. Existe a sua realidade."}, {"n": 4, "nome": "HÁBITOS", "scene": "stairs", "frase": "Pequenos passos repetidos por tempo suficiente deixam de ser pequenos.", "autor": "Reflexão", "intro": "Hábito é o que você faz sem precisar decidir toda vez. Por isso ele é tão poderoso.", "simples": "Comece pequeno, ligue o hábito a algo que você já faz e deixe o ambiente a favor. A repetição faz o resto.", "exemplo": "Em vez de \"vou treinar todo dia\", Paulo decidiu \"vou calçar o tênis depois do café\". Em duas semanas, o resto vinha sozinho.", "campos": [["Hábito que quero construir", 26], ["Versão pequena (2 minutos)", 44], ["Gatilho: depois de ____, eu faço", 44], ["Onde vou deixar o lembrete?", 26]], "checks": ["Escolhi apenas um hábito", "Defini a versão pequena", "Defini o gatilho"], "reflexao": "Qual hábito, se eu mantivesse, deixaria os outros mais fáceis?", "acao": "Faça a versão pequena hoje, depois do seu gatilho.", "fecho": "Não precisa ser grande. Precisa ser repetido."}, {"n": 5, "nome": "DISCIPLINA", "scene": "city", "frase": "Disciplina é fazer o combinado mesmo quando a vontade foi embora.", "autor": "Reflexão", "intro": "Motivação vai e vem. Disciplina é a decisão que fica quando a motivação some.", "simples": "Disciplina não é rigidez. É reduzir o atrito: menos decisões, regras simples e o ambiente preparado antes de você precisar.", "exemplo": "Júlia deixava a roupa de treino separada na véspera. Na hora, não havia o que decidir. Só havia o que fazer.", "campos": [["O que eu prometo a mim mesmo(a)?", 44], ["O que costuma me tirar do combinado?", 44], ["Regra simples para esses momentos", 44], ["Horário fixo do meu compromisso", 26]], "checks": ["Escrevi meu combinado", "Identifiquei meu maior obstáculo", "Criei uma regra simples"], "reflexao": "Que decisão posso tomar hoje para facilitar a vida do meu eu de amanhã?", "acao": "Prepare hoje o que você vai precisar amanhã.", "fecho": "Disciplina é um favor ao seu futuro."}, {"n": 6, "nome": "PROCRASTINAÇÃO", "scene": "desk", "frase": "Começar imperfeito ainda é começar.", "autor": "Reflexão", "intro": "Adiar raramente é preguiça. Quase sempre é medo, cansaço ou uma tarefa grande demais.", "simples": "Quando a tarefa assusta, diminua-a. O menor primeiro passo possível costuma destravar o resto.", "exemplo": "Ana adiava um e-mail difícil há 11 dias. Ao decidir \"escrever só a primeira frase\", terminou em 8 minutos.", "campos": [["O que estou adiando?", 44], ["Por que estou adiando?", 44], ["Qual é o menor primeiro passo?", 44], ["Quando vou começar? (dia e hora)", 26]], "checks": ["Identifiquei a tarefa", "Dividi a tarefa", "Defini o primeiro passo", "Comecei"], "reflexao": "Como vou me sentir ao terminar o que estou adiando?", "acao": "Ajuste um cronômetro para 5 minutos e comece agora.", "fecho": "Cinco minutos mudam o dia."}, {"n": 7, "nome": "CONSTÂNCIA", "scene": "road", "frase": "Um dia ruim não apaga seu progresso.", "autor": "Reflexão", "intro": "Constância não é nunca falhar. É voltar rápido depois de falhar.", "simples": "Quem desiste costuma tratar um tropeço como o fim. Quem continua trata como parte do caminho e tem um plano mínimo.", "exemplo": "Rafael perdeu 3 dias de treino. Em vez de recomeçar \"na segunda\", fez 10 minutos naquela mesma noite. A sequência continuou.", "campos": [["O que me faz desistir?", 44], ["O que posso fazer nos dias ruins?", 44], ["Qual é minha versão mínima?", 44]], "checks": ["Criei meu plano de emergência"], "reflexao": "Qual foi a última vez que voltei depois de cair? O que me ajudou?", "acao": "Escreva sua versão mínima onde você a veja todo dia.", "fecho": "Volte amanhã. Sempre volte."}, {"n": 8, "nome": "ROTINA", "scene": "clock", "frase": "Uma rotina simples vale mais do que um plano perfeito.", "autor": "Reflexão", "intro": "Rotina não prende. Ela liberta a cabeça para o que importa.", "simples": "Defina âncoras: manhã, tarde e noite. Poucas ações fixas já criam estrutura para o resto do dia.", "exemplo": "Bruno escolheu três âncoras: água ao acordar, 3 prioridades às 9h e revisão às 21h. Foi o suficiente para organizar o dia.", "campos": [["Minha âncora da manhã", 26], ["Minha âncora da tarde", 26], ["Minha âncora da noite", 26], ["O que vou parar de fazer?", 44]], "checks": ["Defini minhas 3 âncoras", "Escolhi horários realistas", "Retirei algo que atrapalha"], "reflexao": "Que parte do meu dia é puro improviso e poderia ter uma âncora?", "acao": "Coloque suas 3 âncoras como alarmes no celular.", "fecho": "Estrutura simples, mente leve."}, {"n": 9, "nome": "MENTALIDADE", "scene": "mountain2", "frase": "A forma como você conta a sua história decide o próximo capítulo.", "autor": "Reflexão", "intro": "Pensamentos não são fatos, mas guiam ações. Mudar a conversa interna muda o que você tenta.", "simples": "Troque \"eu sou assim\" por \"eu estou aprendendo\". Não é positividade forçada. É dar espaço para mudar.", "exemplo": "\"Eu nunca termino nada\" virou \"eu ainda não terminei isto, e posso ajustar o tamanho\". A tarefa ficou possível.", "campos": [["Uma crença que me limita", 44], ["Evidência de que nem sempre é verdade", 44], ["Nova frase que vou usar", 44]], "checks": ["Identifiquei uma crença limitante", "Escrevi uma frase nova", "Reli em voz alta"], "reflexao": "O que eu diria a um amigo que estivesse falando assim de si mesmo?", "acao": "Escreva a nova frase em algum lugar visível.", "fecho": "Você muda a rota quando muda o olhar."}, {"n": 10, "nome": "PLANEJAMENTO", "scene": "door", "frase": "Quem planeja o dia não vira refém do que aparece.", "autor": "Reflexão", "intro": "Planejar é decidir antes. Assim, na hora, você só executa.", "simples": "Use o plano mais curto que funciona: 3 prioridades por dia, uma revisão por semana e um plano B simples.", "exemplo": "Letícia lista só 3 tarefas por dia. Quando termina as três, qualquer extra é bônus. A culpa diminuiu e o resultado subiu.", "campos": [["Minhas 3 prioridades da semana", 56], ["O que pode atrapalhar? Meu plano B", 44], ["Dia e hora da minha revisão semanal", 26]], "checks": ["Defini minhas prioridades", "Pensei em possíveis obstáculos", "Agendei minha revisão"], "reflexao": "Se eu só pudesse fazer uma coisa nesta semana, qual traria mais resultado?", "acao": "Bloqueie 15 minutos na agenda para revisar a semana.", "fecho": "Planejar é cuidar do futuro com o que você pode fazer hoje."}], "IMPACTOS": {"imp_ini": ["road", "Você não precisa enxergar o caminho inteiro.\nSó precisa enxergar o próximo passo.", "PRÓXIMO", "DIAGNÓSTICO"], "imp_fin": ["city", "Cada real tem um destino.\nA diferença é quem decide qual.", "PRÓXIMO MÓDULO", "FINANÇAS"], "imp_disc": ["stairs", "Ninguém sobe a escada de uma vez.\nSubir degrau por degrau já é subir.", "PRÓXIMO MÓDULO", "DISCIPLINA"], "imp_proc": ["desk", "A tarefa que você adia\nocupa mais espaço na cabeça do que na agenda.", "PRÓXIMO MÓDULO", "PROCRASTINAÇÃO"], "imp_const": ["dawn", "Todo amanhecer\né uma chance de recomeçar sem pedir desculpas.", "PRÓXIMO MÓDULO", "CONSTÂNCIA"], "imp_ment": ["mountain", "A montanha não fica menor.\nVocê fica mais forte a cada passo.", "PRÓXIMO MÓDULO", "MENTALIDADE"], "imp_plan": ["door", "O futuro entra pela porta\nque você abre hoje.", "PRÓXIMO MÓDULO", "PLANEJAMENTO"], "imp_desafio": ["road", "Trinta dias.\nUm de cada vez.", "AGORA COMEÇA", "O DESAFIO DE 30 DIAS"]}, "DIAS": [["Descubra onde você está", "Clareza vem antes de qualquer mudança.", "Ter um retrato honesto do seu dia a dia.", "Anote tudo o que fizer hoje, de manhã até a noite, sem tentar mudar nada.", ["Leve um papel ou o bloco de notas do celular", "Anote a atividade e a hora, de 2 em 2 horas", "À noite, releia sem julgar"], "O que mais me surpreendeu ao ver meu dia por escrito?"], ["Encontre um desperdício", "O que não aparece, não se corrige.", "Identificar uma perda de tempo ou de dinheiro.", "Procure hoje um desperdício: um gasto, um hábito ou uma distração que não vale o que custa.", ["Revise seu dia de ontem", "Escolha apenas um desperdício", "Escreva quanto ele custa por semana"], "O que esse desperdício me dá em troca? Vale a pena?"], ["Organize sua manhã", "Quem começa o dia no comando, termina no comando.", "Criar uma manhã simples e repetível.", "Defina 3 ações para os primeiros 30 minutos do dia e prepare tudo na véspera.", ["Escolha 3 ações simples (ex.: água, arrumar a cama, ver as prioridades)", "Deixe o necessário separado hoje à noite", "Amanhã cedo, repita as 3"], "Como quero me sentir nos primeiros 30 minutos do dia?"], ["Escolha suas prioridades", "Tudo importante é o mesmo que nada importante.", "Definir 3 prioridades claras.", "Liste tudo o que está pendente e escolha as 3 coisas que mais importam nesta semana.", ["Despeje tudo o que está na cabeça", "Marque as 3 que trariam mais resultado", "Deixe o resto para depois"], "O que fica de fora se eu focar nessas 3? Estou em paz com isso?"], ["Organize seu ambiente", "Um espaço em ordem pensa menos por você.", "Reduzir a bagunça que rouba foco.", "Arrume um único espaço: sua mesa, uma gaveta ou a tela do celular.", ["Escolha só um lugar", "Tire o que não pertence", "Deixe visível apenas o que você usa"], "Como me senti depois de organizar? O que isso me diz?"], ["Elimine uma distração", "Foco é dizer não a muita coisa boa.", "Cortar uma fonte de distração.", "Escolha uma distração (notificação, aplicativo, hábito) e remova ou limite hoje.", ["Identifique a que mais interrompe", "Desative, apague ou afaste", "Observe como foi o resto do dia"], "Quanto tempo ganhei? O que fiz com ele?"], ["Faça sua primeira revisão", "Olhar para trás é como se avança com mais clareza.", "Rever a primeira semana.", "Releia suas respostas dos dias 1 a 6 e escolha o que mantém e o que ajusta.", ["Releia suas anotações", "Marque o que funcionou", "Escolha um ajuste para a próxima semana"], "O que aprendi sobre mim nesta primeira semana?"], ["Escolha um hábito", "Um hábito bem escolhido vale por dez ideias.", "Escolher o hábito que vai construir agora.", "Escolha um único hábito para os próximos 30 dias, simples e possível.", ["Pense no hábito que mais ajudaria", "Reduza até ficar fácil", "Escreva-o de forma bem clara"], "Por que esse hábito, e por que agora?"], ["Comece pequeno", "Pequeno demais para falhar é o tamanho certo.", "Fazer a versão mínima do hábito.", "Faça hoje a versão de 2 minutos do seu hábito.", ["Defina a versão de 2 minutos", "Faça agora, sem esperar vontade", "Marque que cumpriu"], "Foi tão difícil quanto eu imaginava?"], ["Crie um gatilho", "O hábito gruda no que você já faz.", "Ligar o hábito a uma rotina existente.", "Complete a frase: \"Depois de ____, eu vou ____\". Faça hoje.", ["Escolha algo que você já faz todo dia", "Complete a frase", "Execute hoje e amanhã"], "O gatilho foi fácil de lembrar? Preciso trocar?"], ["Prepare seu ambiente", "O caminho mais fácil costuma ser o que você escolhe.", "Facilitar o bom hábito.", "Deixe visível e à mão tudo o que seu hábito precisa. Esconda o que atrapalha.", ["Liste o que seu hábito precisa", "Deixe à vista", "Afaste uma tentação"], "O que mais me atrapalha e posso mudar no ambiente?"], ["Faça mesmo sem vontade", "A vontade é visita. O compromisso mora aqui.", "Praticar ação sem depender do humor.", "Escolha um momento em que não está com vontade e faça a versão mínima do hábito.", ["Reconheça a falta de vontade", "Faça só os 2 minutos", "Observe: a vontade mudou?"], "O que aconteceu quando fiz sem vontade?"], ["Enfrente uma tarefa adiada", "Quanto mais você adia, mais ela pesa.", "Dar o primeiro passo em algo que vem adiando.", "Escolha uma tarefa adiada e faça os 5 primeiros minutos dela.", ["Escolha a tarefa", "Ajuste um cronômetro de 5 minutos", "Pare ou continue, você decide"], "Como estava a tarefa na minha cabeça, e como ficou depois?"], ["Revise sua segunda semana", "Ajustar não é recuar. É aprender.", "Rever hábitos e disciplina.", "Releia os dias 8 a 13 e avalie seu hábito: o que facilita e o que dificulta.", ["Conte quantas vezes cumpriu", "Identifique o que ajudou", "Escolha 1 ajuste"], "O hábito está do tamanho certo? Preciso reduzir ou posso aumentar?"], ["Descubra para onde seu dinheiro vai", "O que é medido, melhora.", "Mapear seus gastos recentes.", "Revise os gastos dos últimos 7 dias e anote cada um, por menor que seja.", ["Abra o extrato ou as notas de compra", "Anote valor e motivo", "Some por categoria"], "Algum gasto me surpreendeu? Algum não combina comigo?"], ["Revise seus gastos", "Gastar bem é gastar com intenção.", "Separar o essencial do dispensável.", "Marque cada gasto da semana como essencial, útil ou dispensável.", ["Releia a lista de ontem", "Classifique cada gasto", "Some o que é dispensável"], "O que posso reduzir sem sentir tanta falta?"], ["Corte um desperdício", "Um pequeno corte repetido vira um grande ganho.", "Eliminar um gasto que não vale a pena.", "Escolha um gasto dispensável e decida cortá-lo ou reduzi-lo hoje.", ["Escolha um só gasto", "Cancele ou reduza", "Anote quanto vai economizar por mês"], "Quanto isso soma em um ano? O que eu poderia fazer com esse valor?"], ["Crie uma meta financeira", "Dinheiro com propósito rende mais.", "Dar um destino ao dinheiro.", "Defina uma meta financeira simples: valor, prazo e motivo.", ["Escolha entre reserva, dívida ou objetivo", "Defina valor e prazo", "Divida por mês"], "Por que essa meta importa para mim?"], ["Defina quanto guardar", "Guardar é o primeiro gasto, não o que sobra.", "Escolher um valor possível para guardar.", "Defina um valor realista para guardar neste mês, mesmo que pequeno.", ["Veja sua renda e gastos fixos", "Escolha um valor possível", "Separe assim que receber"], "Esse valor é realista? Consigo manter por 3 meses?"], ["Planeje seu lazer", "Prazer planejado dura mais e pesa menos.", "Reservar um valor para lazer sem culpa.", "Defina quanto pode gastar em lazer neste mês e escolha como usar.", ["Defina um valor", "Escolha 2 formas de aproveitar", "Reserve esse valor"], "O que realmente me dá prazer e não custa tanto?"], ["Faça sua revisão financeira", "Revisão é um encontro marcado com a realidade.", "Rever a semana das finanças.", "Releia os dias 15 a 20 e atualize seu planner financeiro.", ["Reveja renda e gastos", "Confira a meta financeira", "Ajuste o que for preciso"], "O que aprendi sobre meu dinheiro nesta semana?"], ["Identifique seu maior sabotador", "Conhecer o obstáculo é meio caminho para contorná-lo.", "Descobrir o que mais atrapalha você.", "Escreva o que mais te faz abandonar: cansaço, dúvida, distração, perfeccionismo.", ["Releia seus dias anteriores", "Nomeie o principal sabotador", "Escreva uma resposta para ele"], "Quando esse sabotador aparece e o que ele me diz?"], ["Crie uma rotina mínima", "O mínimo constante vence o máximo ocasional.", "Ter uma rotina que funcione até nos dias ruins.", "Defina o mínimo que você faz mesmo nos piores dias: 3 ações pequenas.", ["Escolha 3 ações", "Reduza até serem fáceis", "Escreva onde verá"], "Consigo cumprir isso mesmo exausto(a)?"], ["Organize sua próxima semana", "Quem planeja a semana respira melhor.", "Entrar na semana com plano.", "Defina as 3 prioridades e reserve horários para elas na próxima semana.", ["Escolha 3 prioridades", "Reserve horários na agenda", "Antecipe um obstáculo"], "O que pode atrapalhar e como me preparo?"], ["Faça algo que você vem adiando", "O alívio de terminar supera o desconforto de começar.", "Concluir algo que está pendente.", "Escolha algo pendente há tempos e faça hoje, nem que seja a parte mais importante.", ["Escolha o item", "Divida em passos pequenos", "Faça pelo menos o primeiro"], "Por que eu adiava? Era tão grande quanto parecia?"], ["Recomece algo abandonado", "Recomeçar é continuar, só que mais sábio.", "Voltar a algo que ficou para trás.", "Escolha algo que abandonou e retome em tamanho pequeno.", ["Escolha o que retomar", "Defina a versão mínima", "Faça hoje"], "O que aprendi da primeira vez e posso fazer diferente agora?"], ["Faça uma escolha melhor", "A vida muda nas pequenas escolhas repetidas.", "Praticar uma decisão mais alinhada.", "Escolha uma situação do dia e decida conscientemente a opção melhor para o seu futuro.", ["Perceba o momento de escolha", "Pare por 10 segundos", "Escolha o que seu eu futuro agradece"], "O que mudou quando escolhi com consciência?"], ["Revise seus hábitos", "O que você acompanha, você mantém.", "Avaliar seus hábitos na reta final.", "Olhe o rastreador de hábitos e veja o que se manteve, o que caiu e por quê.", ["Abra o rastreador", "Conte os dias marcados", "Escolha o que continuar"], "Que hábito ficou mais forte? Qual precisa de ajuste?"], ["Prepare seu próximo ciclo", "Terminar bem é começar o próximo com clareza.", "Preparar o que vem depois dos 30 dias.", "Escolha 1 hábito para manter, 1 para criar e 1 meta para os próximos 30 dias.", ["Reveja o que funcionou", "Escolha o que mantém e o que cria", "Escreva na página de próximo ciclo"], "O que quero ainda mais nos próximos 30 dias?"], ["Olhe para trás", "Quem olha para trás vê que já andou.", "Reconhecer a sua evolução.", "Compare como você estava no dia 1 e como está hoje. Reconheça o que construiu.", ["Releia o dia 1", "Compare com seu momento atual", "Reconheça o que mudou"], "Qual é a principal diferença entre quem eu era no dia 1 e quem sou hoje?"]], "BLOCOS": [["DIAGNÓSTICO E ORGANIZAÇÃO", 1, 7, "stairs"], ["HÁBITOS E DISCIPLINA", 8, 14, "clock"], ["FINANÇAS E PLANEJAMENTO", 15, 21, "growth"], ["CONSTÂNCIA", 22, 29, "dawn"], ["OLHE PARA TRÁS", 30, 30, "door"]], "HABITOS": [["AGUA", "Água"], ["EXERCICIO", "Exercício"], ["ESTUDO", "Estudo"], ["TRABALHO", "Trabalho"], ["FINANCAS", "Organização financeira"], ["LEITURA", "Leitura"], ["SONO", "Sono / descanso"], ["PROCRAST", "Evitar procrastinação"]], "AREAS": ["DISCIPLINA", "FINANÇAS", "CONSTÂNCIA", "HÁBITOS", "ORGANIZAÇÃO", "PRODUTIVIDADE", "PLANEJAMENTO"], "BANCO": {"DISCIPLINA": ["Disciplina é um recado do seu eu de hoje para o seu eu de amanhã.", "Quem espera a vontade para começar costuma esperar muito.", "Faça o combinado, mesmo quando o humor discorda.", "Disciplina não é força. É preparação.", "O que você repete em silêncio constrói o que aparece em público.", "Regras simples vencem promessas grandiosas.", "Você não precisa de mais vontade. Precisa de menos desculpas elegantes.", "A disciplina de hoje é a liberdade de depois.", "Cumprir o mínimo todo dia ensina mais do que o máximo uma vez.", "Autocontrole é escolher o que você quer mais, não o que você quer agora."], "CONSTÂNCIA": ["Um dia ruim não apaga seu progresso.", "Constância é voltar, não nunca sair.", "O que importa não é a velocidade, é a sequência.", "A grande mudança costuma vestir roupa de dia comum.", "Quem aparece todo dia vence quem aparece só quando está inspirado.", "Falhou um dia? Faça o mínimo no outro. Só não faça nada duas vezes seguidas.", "Progresso parece lento até você olhar para trás.", "Seja a pessoa que continua, não a que começa melhor.", "Pequeno hoje, pequeno amanhã, grande no mês que vem.", "Constância é um acordo silencioso com você mesmo."], "FINANÇAS": ["Quem não decide para onde vai o dinheiro, descobre depois que ele já foi.", "Controlar não é privar. É escolher.", "Gastar com consciência é diferente de gastar com culpa.", "O gasto pequeno que se repete merece o mesmo respeito que o grande.", "Reserva é paz comprada em parcelas pequenas.", "Você não precisa ganhar mais para começar a organizar melhor.", "Anotar é enxergar. Enxergar é poder decidir.", "Dívida pesa menos quando ganha nome, valor e plano.", "Dinheiro com destino rende mais do que dinheiro com sobra.", "O melhor momento para olhar suas contas é antes de elas olharem para você."], "PROCRASTINAÇÃO": ["Começar imperfeito ainda é começar.", "A tarefa adiada pesa mais do que a tarefa feita.", "Cinco minutos de verdade valem mais do que uma hora de planejamento.", "Você não precisa terminar hoje. Só precisa começar hoje.", "Perfeito é o inimigo do feito, e dos prazos também.", "O medo de fazer mal feito costuma ser maior do que o trabalho em si.", "Quando a tarefa assusta, diminua-a.", "O primeiro passo é pequeno de propósito.", "Adiar é pegar emprestado tempo do seu futuro com juros altos.", "A sensação de alívio mora do outro lado de começar."], "FOCO": ["Foco é a arte de dizer não a coisas boas.", "Onde a atenção vai, a vida vai junto.", "Uma coisa por vez, feita direito, vale por três feitas pela metade.", "Seu celular é uma ferramenta, não um chefe.", "Silêncio é um recurso. Proteja-o.", "Atenção dividida é produtividade diminuída.", "Escolher o que ignorar é parte de escolher o que importa.", "Quem tem tudo como prioridade não tem prioridade nenhuma.", "Terminar uma coisa é melhor do que começar dez.", "Profundidade bate pressa."], "RECOMEÇO": ["Recomeçar não é voltar ao zero. É voltar com experiência.", "Todo amanhã é uma folha em branco com o que você já aprendeu.", "Você não perdeu tempo. Aprendeu o que não funciona.", "Cair faz parte. Ficar no chão é opção.", "Recomeço não precisa de data especial. Pode ser hoje, agora.", "Quem recomeça já venceu a parte mais difícil: decidir de novo.", "Não tenha vergonha de voltar. Tenha orgulho de ter voltado.", "Uma pausa não é o fim da história.", "O que ficou para trás ensina. O que está à frente chama.", "Seja gentil ao recomeçar. Você já se cobrou demais."]}, "CITACOES": [["Você não se eleva ao nível das suas metas. Você cai ao nível dos seus sistemas.", "James Clear", "Hábitos Atômicos (2018)", "HÁBITOS"], ["Nós somos o que repetidamente fazemos. A excelência, portanto, não é um ato, mas um hábito.", "Will Durant", "A História da Filosofia (1926), resumindo o pensamento de Aristóteles", "DISCIPLINA"], ["Uma jornada de mil milhas começa com um único passo.", "Lao Tsé", "Tao Te Ching, cap. 64 (tradução livre)", "PROCRASTINAÇÃO"]], "MENSAGENS": ["Mais um passo.", "Você está avançando.", "Não precisa ser perfeito.", "Continue.", "Volte amanhã.", "Você está construindo consistência.", "Seu progresso merece ser acompanhado."], "IMGS": {"m1": "img/dawn_11_432.jpg", "m2": "img/mountain_12_432.jpg", "m3": "img/growth_13_432.jpg", "m4": "img/stairs_14_432.jpg", "m5": "img/city_15_432.jpg", "m6": "img/desk_16_432.jpg", "m7": "img/road_17_432.jpg", "m8": "img/clock_18_432.jpg", "m9": "img/mountain2_19_432.jpg", "m10": "img/door_20_432.jpg", "imp_ini": "img/road_41_512.jpg", "imp_fin": "img/city_38_512.jpg", "imp_disc": "img/stairs_40_512.jpg", "imp_proc": "img/desk_7_512.jpg", "imp_const": "img/dawn_22_512.jpg", "imp_ment": "img/mountain_7_512.jpg", "imp_plan": "img/door_48_512.jpg", "imp_desafio": "img/road_2_512.jpg", "capa": "img/road_5_560.jpg", "final": "img/dawn_7_528.jpg"}};
+const KEY = 'projeto30dias_v1';
+let mem = {}, storageOK = true;
+let S = {};
+try { S = JSON.parse(localStorage.getItem(KEY) || '{}'); localStorage.setItem(KEY + '_t', '1'); localStorage.removeItem(KEY + '_t'); } catch (e) { storageOK = false; S = mem; }
+let tt;
+function save() {
+  try { if (storageOK) localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { storageOK = false; }
+  const t = document.getElementById('toast'); t.textContent = storageOK ? 'Salvo' : 'Não foi possível salvar neste navegador'; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 900);
+}
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const p2 = n => String(n).padStart(2, '0');
+const num = v => { const n = parseFloat(String(v || '').replace(/\./g, '').replace(',', '.')); return isNaN(n) ? 0 : n; };
+const brl = n => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+// ---------- componentes
+const ck = (k, t, cls = '') => `<label class="ck ${cls}"><input type="checkbox" data-k="${k}" ${S[k] ? 'checked' : ''}><span class="box"></span><span>${t}</span></label>`;
+const ta = (k, lab, rows = 4) => `<label class="lab" for="${k}">${lab}</label><textarea id="${k}" data-k="${k}" rows="${rows}">${esc(S[k] || '')}</textarea>`;
+const tx = (k, lab) => `<label class="lab" for="${k}">${lab}</label><input type="text" id="${k}" data-k="${k}" value="${esc(S[k] || '')}">`;
+const money = (k, lab, ro = false) => `<label class="lab" for="${k}">${lab}</label><div class="money"><span>R$</span><input type="text" inputmode="decimal" id="${k}" data-k="${k}" ${ro ? 'readonly class="ro"' : ''} value="${esc(S[k] || '')}" placeholder="0,00"></div>`;
+const card = (t, body, edge = true) => `<div class="card ${edge ? 'edge' : ''}"><div class="t">${t}</div>${body}</div>`;
+const quote = (t, a = 'Reflexão') => `<div class="quote">${t.replace(/\n/g, '<br>')}<small>— ${a}</small></div>`;
+const sec = t => `<div class="sec">${t}</div>`;
+const segs = n => `<div class="segs">${Array.from({ length: 30 }, (_, i) => `<i class="${i < n ? 'on' : ''}"></i>`).join('')}</div>`;
+
+function daysDone() { let c = 0; for (let i = 1; i <= 30; i++) if (S[`D${p2(i)}_MISSAO_CONCLUIDA`]) c++; return c; }
+function blocoDe(n) { for (const [t, a, b] of D.BLOCOS) if (n >= a && n <= b) return t; }
+
+// ---------- páginas
+const R = [];   // sequência: {id, title, render}
+const add = (id, title, render, opts = {}) => R.push({ id, title, render, ...opts });
+
+add('home', 'Início', () => {
+  const n = daysDone();
+  return `<div class="hero full" style="background-image:url(${D.IMGS.capa})"></div>
+  <div class="center" style="margin-top:-90px;position:relative;z-index:2">
+    <div class="kicker">Sistema de organização pessoal</div>
+    <h1 style="font-size:46px;line-height:1">PROJETO<br><span style="color:var(--acc)">30 DIAS</span></h1>
+    <p class="mute" style="letter-spacing:.14em;font-size:13px;margin-top:10px">ORGANIZE SUA VIDA</p>
+    <p class="mute" style="font-size:11px;letter-spacing:.18em">30 DIAS · 30 MISSÕES · 1 NOVA ROTINA</p>
+    <p style="margin-top:22px"><a class="btn" href="#/comecar">${n ? 'Continuar' : 'Começar'}</a></p>
+  </div>
+  <div class="card" style="margin-top:28px"><div class="t">Seu progresso</div>
+    <div style="display:flex;justify-content:space-between;font-weight:500"><span>${n}/30 dias concluídos</span><span class="mute">${Math.round(n / 30 * 100)}%</span></div>
+    <div class="bar" style="margin-top:8px"><i style="width:${n / 30 * 100}%"></i></div>
+    ${n ? `<p style="margin:14px 0 0"><a class="btn small ghost" href="#/d/${Math.min(30, n + 1)}">Ir para o Dia ${p2(Math.min(30, n + 1))}</a></p>` : ''}</div>
+  <div class="list" style="margin-top:8px">
+    <a href="#/indice">Índice completo</a><a href="#/desafio">Desafio de 30 dias</a><a href="#/rastreador">Rastreador de hábitos</a><a href="#/bonus">Ferramentas bônus</a><a href="#/baixar">Baixar PDFs e backup</a></div>`;
+}, { nonav: true });
+
+add('comecar', 'Boas-vindas', () => `
+  <div class="kicker">01 · Boas-vindas</div><h1 class="h1">Você não precisa mudar a vida inteira hoje.</h1>
+  ${quote('Precisa começar a tomar decisões melhores,<br>um dia de cada vez.')}
+  <p>Este é um sistema de 30 dias para organizar sua rotina, suas finanças e seus hábitos, com passos pequenos e realistas. Você vai ler, refletir, agir, marcar e registrar.</p>
+  <p>Aqui não há promessa de riqueza nem de transformação milagrosa. Há um método simples, e você no comando.</p>
+  ${card('Seus dados ficam salvos neste aparelho', 'Tudo o que você marca e escreve é guardado no seu navegador. Use sempre o mesmo aparelho e navegador, e faça um backup de vez em quando em <a href="#/baixar">Baixar PDFs e backup</a>. Dica: no celular, use "Adicionar à tela inicial" para abrir como aplicativo.')}
+  ${card('Importante', 'Este material é educativo e de autoconhecimento. Não substitui orientação financeira, médica ou psicológica profissional. Os resultados dependem da sua prática.', false)}
+  <div class="kicker">03 · Como funciona</div>
+  <ol class="steps">${[['LER', 'Leia a missão do dia. Leva 2 minutos.'], ['REFLETIR', 'Pare e pense na pergunta proposta.'], ['EXECUTAR', 'Faça a ação. Pequena, mas feita.'], ['MARCAR', 'Marque o checklist com um toque.'], ['REGISTRAR', 'Escreva seu resultado no campo.'], ['ACOMPANHAR', 'Veja sua sequência no rastreador.'], ['EVOLUIR', 'Revise e ajuste a cada 7 dias.']].map(([a, b]) => `<li><div><b style="letter-spacing:.12em;font-size:13px">${a}</b><div class="mute" style="font-size:14px">${b}</div></div></li>`).join('')}</ol>
+  <div class="kicker">04 · Regras</div>
+  ${[['1 · Um dia de cada vez', 'Não tente recuperar o atraso. Retome do dia em que está.'], ['2 · Faça o mínimo, não nada', 'Em dias difíceis, a versão pequena já conta.'], ['3 · Seja honesto(a)', 'Ninguém vê suas respostas. Elas são só suas.'], ['4 · Registre', 'O que é escrito é lembrado. O que é marcado é visto.'], ['5 · Volte amanhã', 'Constância vale mais do que intensidade.']].map(([a, b]) => card(a, b)).join('')}
+  <p class="mute" style="font-size:13px">As avaliações são autoavaliações, não testes científicos.</p>`);
+
+add('indice', 'Índice', () => {
+  const l = R.filter(r => r.idx).map(r => `<a href="#/${r.id}">${r.title}</a>`).join('');
+  return `<div class="kicker">Navegue</div><h1 class="h1">Índice</h1><div class="list">${l}</div>`;
+}, { nonav: false, hidden: true });
+
+function impacto(key) {
+  const [, frase, rot, prox] = D.IMPACTOS[key];
+  add('i/' + key, 'Reflexão', () => `<div class="hero full" style="background-image:url(${D.IMGS[key]})"></div>
+    <div class="center" style="margin-top:-70px;position:relative;z-index:2;padding-bottom:10px">
+      <div class="ph" style="font-size:22px;font-style:italic;line-height:1.55;margin-bottom:8px">${frase.replace(/\n/g, '<br>')}</div>
+      <small style="font-size:10px;letter-spacing:.16em;color:var(--dim)">— REFLEXÃO</small>
+      <div class="next" style="margin-top:26px;font-size:11px;letter-spacing:.2em;color:var(--dim)">${rot}</div>
+      <div class="nm" style="font-size:24px;font-weight:700;color:var(--acc)">${prox}</div></div>`, { imp: true });
+}
+
+function modulo(m) {
+  const n = m.n;
+  add('m/' + n, `Módulo ${p2(n)} · ${m.nome[0] + m.nome.slice(1).toLowerCase()}`, () => `
+    <div class="hero" style="background-image:url(${D.IMGS['m' + n]})"></div>
+    <div style="margin-top:-60px;position:relative;z-index:2">
+      <div class="kicker" style="margin:0">Módulo</div>
+      <div style="font-size:64px;font-weight:700;color:var(--acc);line-height:1">${p2(n)}</div>
+      <h1 style="font-size:28px;margin:4px 0 10px">${m.nome}</h1>
+      <div style="width:36px;height:2px;background:var(--acc);margin:12px 0"></div>
+      ${quote(m.frase, m.autor)}
+    </div>
+    <p class="lead">${m.intro}</p>
+    ${sec('Explicação simples')}<p>${m.simples}</p>
+    ${card('Exemplo real', m.exemplo)}
+    ${sec('Para refletir')}${quote(m.reflexao)}
+    ${sec('Ação do módulo')}<p style="font-weight:500">${m.acao}</p>
+    ${sec('Exercício')}
+    ${m.campos.map((c, i) => (i == m.campos.length - 1 && c[1] <= 28) || c[1] <= 28 ? tx(`M${p2(n)}_CAMPO_${p2(i + 1)}`, c[0]) : ta(`M${p2(n)}_CAMPO_${p2(i + 1)}`, c[0], 3)).join('')}
+    ${sec('Checklist')}${m.checks.map((c, i) => ck(`M${p2(n)}_CHECK_${p2(i + 1)}`, c)).join('')}
+    ${quote(m.fecho, 'Para lembrar')}`);
+}
+
+function planner() {
+  const f1 = [['RENDA_FONTE1', 'Fonte principal'], ['RENDA_FONTE2', 'Outras fontes']];
+  const fx = [['MORADIA', 'Moradia'], ['CONTAS', 'Contas (luz, água, internet)'], ['TRANSPORTE', 'Transporte'], ['ALIMENTACAO', 'Alimentação'], ['OUTROS', 'Outros fixos']];
+  add('planner', 'Planner financeiro', () => `
+    <div class="kicker">09 · Planner financeiro</div><h1 class="h1">O que entra e o que sai.</h1>
+    <p class="mute">Use valores aproximados. O objetivo é enxergar, não ser perfeito. Os totais e o resultado são calculados automaticamente.</p>
+    ${sec('Renda')}${f1.map(([k, l]) => money('FIN_' + k, l)).join('')}${money('FIN_RENDA_TOTAL', 'Renda total do mês (automático)', true)}
+    ${sec('Gastos fixos')}${fx.map(([k, l]) => money('FIN_FIXO_' + k, l)).join('')}${money('FIN_FIXO_TOTAL', 'Total de gastos fixos (automático)', true)}
+    ${sec('Variáveis e dívidas')}${money('FIN_VARIAVEIS', 'Gastos variáveis')}${money('FIN_DIVIDAS', 'Dívidas (total)')}${money('FIN_PARCELA', 'Parcela mensal das dívidas')}
+    ${sec('Minha distribuição')}${money('FIN_GUARDAR', 'Quanto quero guardar')}${money('FIN_INVESTIR', 'Quanto quero investir')}${money('FIN_LAZER', 'Quanto posso usar para lazer')}${money('FIN_IMPREVISTOS', 'Quanto para imprevistos')}
+    <div class="card edge" style="margin-top:20px"><div class="t">Resultado do mês</div>
+      <div style="display:flex;justify-content:space-between"><span class="mute">Renda − fixos − variáveis − parcela</span><b id="fin_r1">—</b></div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px"><span class="mute">Depois da minha distribuição</span><b id="fin_r2">—</b></div>
+      <p class="mute" style="font-size:12px;margin:10px 0 0">Valores calculados só com o que você digitou. Cada pessoa tem uma realidade: não existe regra única.</p></div>
+    ${tx('FIN_DECISAO', 'Minha decisão financeira deste mês')}
+    ${ck('FIN_CHECK_PLANNER', 'Preenchi meu planner financeiro')}`, { after: finCalc });
+}
+function finCalc() {
+  if (!$('#fin_r1')) return;
+  const g = k => num(S[k]);
+  const renda = g('FIN_RENDA_FONTE1') + g('FIN_RENDA_FONTE2');
+  const fixos = ['MORADIA', 'CONTAS', 'TRANSPORTE', 'ALIMENTACAO', 'OUTROS'].reduce((a, k) => a + g('FIN_FIXO_' + k), 0);
+  const set = (id, v) => { const e = document.getElementById(id); if (e) e.value = v ? String(v.toFixed(2)).replace('.', ',') : ''; };
+  set('FIN_RENDA_TOTAL', renda); set('FIN_FIXO_TOTAL', fixos);
+  S.FIN_RENDA_TOTAL = $('#FIN_RENDA_TOTAL').value; S.FIN_FIXO_TOTAL = $('#FIN_FIXO_TOTAL').value;
+  const r1 = renda - fixos - g('FIN_VARIAVEIS') - g('FIN_PARCELA');
+  const r2 = r1 - g('FIN_GUARDAR') - g('FIN_INVESTIR') - g('FIN_LAZER') - g('FIN_IMPREVISTOS');
+  $('#fin_r1').textContent = brl(r1); $('#fin_r2').textContent = brl(r2);
+  $('#fin_r1').style.color = r1 < 0 ? '#ff7b7b' : 'var(--acc)'; $('#fin_r2').style.color = r2 < 0 ? '#ff7b7b' : 'var(--acc)';
+}
+
+function ruins() {
+  add('ruins', 'Plano para dias ruins', () => `
+    <div class="kicker">Plano para dias ruins</div><h1 class="h1">Quando eu não estiver motivado(a), farei pelo menos:</h1>
+    ${[1, 2, 3].map(i => tx('RUINS_ACAO_' + i, `${i}. Ação mínima`)).join('')}
+    ${sec('Checklist dos dias ruins')}${['Fiz o mínimo', 'Não abandonei completamente', 'Voltei ao processo'].map((c, i) => ck('RUINS_CHECK_' + p2(i + 1), c)).join('')}
+    ${quote('Um dia ruim não apaga seu progresso.')}`);
+}
+
+function desafio() {
+  add('desafio', 'Desafio 30 dias', () => {
+    const n = daysDone();
+    return `<div class="kicker">17 · Desafio 30 dias</div><h1 class="h1">Quatro etapas. Uma missão por dia.</h1>
+    <div class="card"><div style="display:flex;justify-content:space-between;font-weight:500"><span>${n}/30 concluídos</span><span class="mute">${Math.round(n / 30 * 100)}%</span></div><div class="bar" style="margin-top:8px"><i style="width:${n / 30 * 100}%"></i></div>
+    <p class="mute" style="font-size:12px;margin:8px 0 0">O progresso é atualizado sozinho quando você marca "Concluí o dia".</p></div>
+    ${D.BLOCOS.slice(0, 4).map(([t, a, b]) => `<div class="sec">Dias ${p2(a)}–${p2(b)} · ${t}</div><div class="grid30">${Array.from({ length: b - a + 1 }, (_, i) => a + i).map(d => `<a class="${S['D' + p2(d) + '_MISSAO_CONCLUIDA'] ? 'done' : ''}" href="#/d/${d}">${p2(d)}</a>`).join('')}</div>`).join('')}
+    <div class="sec">Dia 30 · Olhe para trás</div><div class="grid30"><a class="${S['D30_MISSAO_CONCLUIDA'] ? 'done' : ''}" href="#/d/30">30</a></div>`;
+  });
+}
+
+function dia(n) {
+  const [tit, frase, obj, missao, como, refl] = D.DIAS[n - 1], P = 'D' + p2(n);
+  add('d/' + n, `Dia ${p2(n)} · ${tit}`, () => {
+    const done = daysDone();
+    return `<div class="kicker" style="margin-bottom:6px;display:flex;justify-content:space-between"><span>Dia ${p2(n)}/30</span><span style="color:var(--dim)">${blocoDe(n)}</span></div>
+    ${segs(done)}
+    <h1 style="font-size:26px;margin:14px 0 8px">${tit}</h1>
+    <div class="quote" style="font-size:15px;color:var(--mute);margin-top:8px">${frase}</div>
+    ${sec('Objetivo')}<p>${obj}</p>
+    ${card('Sua missão', `<div style="font-weight:500;font-size:17px">${missao}</div>`)}
+    ${sec('Como fazer')}<ol class="steps">${como.map(c => `<li><div>${c}</div></li>`).join('')}</ol>
+    ${sec('Reflexão')}<p class="mute" style="font-style:italic">${refl}</p>
+    <textarea data-k="${P}_REFLEXAO" aria-label="Minha reflexão" rows="4">${esc(S[P + '_REFLEXAO'] || '')}</textarea>
+    ${tx(P + '_RESULTADO', 'Meu resultado de hoje')}
+    ${sec('Checklist')}${['Fiz a tarefa principal', 'Fiz a reflexão', 'Registrei meu resultado'].map((c, i) => ck(`${P}_CHECK_${p2(i + 1)}`, c)).join('')}
+    <label class="ck big"><input type="checkbox" data-k="${P}_MISSAO_CONCLUIDA" ${S[P + '_MISSAO_CONCLUIDA'] ? 'checked' : ''}><span class="box"></span><span><span style="display:block;font-size:10px;letter-spacing:.16em;color:var(--acc)">MISSÃO CONCLUÍDA</span>CONCLUÍ O DIA ${p2(n)}</span></label>
+    <p class="center mute" style="font-style:italic;font-size:14px">${D.MENSAGENS[(n - 1) % D.MENSAGENS.length]}</p>`;
+  });
+}
+
+function tracker() {
+  add('rastreador', 'Rastreador de hábitos', () => `
+    <div class="kicker">18 · Rastreador de hábitos</div><h1 class="h1">Toque no dia concluído.</h1>
+    ${D.HABITOS.map(([code, nome]) => {
+      const c = Array.from({ length: 30 }, (_, i) => S[`HABITO_${code}_D${p2(i + 1)}`] ? 1 : 0).reduce((a, b) => a + b, 0);
+      return `<div class="card trk"><div style="display:flex;justify-content:space-between;margin-bottom:12px"><span class="t" style="margin:0">${nome}</span><span class="mute" style="font-size:12px" data-cnt="${code}">${c}/30</span></div>
+      <div class="g">${Array.from({ length: 30 }, (_, i) => `<div class="c">${p2(i + 1)}${ck(`HABITO_${code}_D${p2(i + 1)}`, '')}</div>`).join('')}</div></div>`;
+    }).join('')}`);
+}
+
+function painel() {
+  add('painel', 'Painel de evolução', () => `
+    <div class="kicker">19 · Painel de evolução</div><h1 class="h1">Sua autoavaliação de 0 a 10.</h1>
+    <p class="mute">Não é avaliação científica. É só você olhando para você.</p>
+    ${D.AREAS.map(a => {
+      const sl = a.replace('Ç', 'C').replace('Â', 'A').replace('Á', 'A').replace('Ã', 'A');
+      return `<div class="card"><div class="t">${a}</div>${[1, 15, 30].map(d => { const k = `PAINEL_${sl}_D${p2(d)}`; const v = Math.max(0, Math.min(10, num(S[k])));
+        return `<div class="pbar"><span class="mute">Dia ${p2(d)}</span><div class="bar"><i data-pb="${k}" style="width:${v * 10}%"></i></div><input type="text" inputmode="numeric" data-k="${k}" data-pbin="${k}" value="${esc(S[k] || '')}" style="padding:6px 8px;text-align:center" placeholder="0"></div>`; }).join('')}</div>`;
+    }).join('')}`);
+}
+
+function finalPg() {
+  add('i/final', 'Dia 30 · Revisão final', () => `<div class="hero full" style="background-image:url(${D.IMGS.final})"></div>
+    <div class="center" style="margin-top:-80px;position:relative;z-index:2"><div class="big30">30/30</div>
+    <h2 class="h2" style="margin-top:8px">VOCÊ CHEGOU ATÉ AQUI.</h2><p class="mute" style="font-style:italic">Olhe para trás. Você começou quando<br>era mais fácil não começar.</p></div>`, { imp: true });
+  add('final', 'Revisão final', () => `
+    <div class="kicker">20 · Revisão final · Dia 30</div><h1 class="h1">Compare: antes e depois.</h1>
+    ${[['FINAL_CAMPO_01', 'Como eu estava?'], ['FINAL_CAMPO_02', 'Como estou agora?'], ['FINAL_CAMPO_03', 'O que mudou?'], ['FINAL_CAMPO_04', 'O que aprendi?'], ['FINAL_CAMPO_05', 'O que vou continuar?']].map(([k, l]) => ta(k, l, 3)).join('')}
+    ${sec('Checklist')}${['Completei o Dia 30', 'Fiz minha reflexão final', 'Comparei meu progresso', 'Defini meu próximo ciclo'].map((c, i) => ck('FINAL_CHECK_' + p2(i + 1), c)).join('')}
+    <label class="ck big"><input type="checkbox" data-k="FINAL_PROJETO_CONCLUIDO" ${S.FINAL_PROJETO_CONCLUIDO ? 'checked' : ''}><span class="box"></span><span><span style="display:block;font-size:10px;letter-spacing:.16em;color:var(--acc)">PROJETO 30 DIAS</span>CONCLUÍDO</span></label>`);
+}
+
+function ciclo() {
+  add('ciclo', 'Próximo ciclo', () => `
+    <div class="kicker">21 · Próximo ciclo</div><h1 class="h1">Meus próximos 30 dias.</h1>
+    ${sec('3 objetivos')}${[1, 2, 3].map(i => tx('CICLO_OBJ_' + i, 'Objetivo ' + i)).join('')}
+    ${sec('3 hábitos')}${[1, 2, 3].map(i => tx('CICLO_HAB_' + i, 'Hábito ' + i)).join('')}
+    ${sec('Foco')}${tx('CICLO_EXTRA_01', '1 prioridade financeira')}${tx('CICLO_EXTRA_02', '1 coisa que vou parar de fazer')}${tx('CICLO_EXTRA_03', '1 coisa que vou começar a fazer')}
+    ${ck('CICLO_CHECK', 'Defini meu próximo ciclo')}`);
+}
+
+function bonus() {
+  add('bonus', 'Ferramentas bônus', () => `
+    <div class="kicker">Bônus</div><h1 class="h1">Mais ferramentas interativas.</h1>
+    <div class="list"><a href="#/semanal">Planner semanal</a><a href="#/matriz">Matriz de prioridades</a><a href="#/recomeco">Plano de recomeço</a><a href="#/planner">Planner financeiro</a><a href="#/ruins">Plano para dias ruins</a><a href="#/rastreador">Rastreador de hábitos</a></div>`);
+  add('semanal', 'Planner semanal', () => `
+    <div class="kicker">Planner semanal</div><h1 class="h1">Minha semana.</h1>${tx('SEM_FOCO', 'Foco da semana')}
+    ${['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'].map((d, i) => `<div class="card"><div class="t">${d}</div>${ta('SEM_' + (i + 1) + '_PRIORIDADES', 'Prioridades', 2)}${ck('SEM_' + (i + 1) + '_CONCLUIDO', 'Dia concluído')}</div>`).join('')}`);
+  add('matriz', 'Matriz de prioridades', () => `
+    <div class="kicker">Matriz de prioridades</div><h1 class="h1">O que é importante e o que é só urgente.</h1>
+    <p class="mute">Liste suas tarefas e distribua nos quadrantes. Depois escolha o que faz primeiro.</p>
+    <div class="q4">${[['FAZER AGORA', 'Importante e urgente'], ['AGENDAR', 'Importante, não urgente'], ['REDUZIR / DELEGAR', 'Urgente, não importante'], ['ELIMINAR', 'Nem urgente, nem importante']].map(([t, s], i) => `<div class="card ${i == 0 ? 'edge' : ''}" style="padding:12px"><div class="t" style="font-size:10px">${t}</div><div class="mute" style="font-size:11px;margin-bottom:6px">${s}</div><textarea data-k="MATRIZ_Q${i + 1}" aria-label="${t}">${esc(S['MATRIZ_Q' + (i + 1)] || '')}</textarea></div>`).join('')}</div>
+    ${tx('MATRIZ_PRIMEIRA', 'A primeira tarefa que vou fazer')}${ck('MATRIZ_CHECK', 'Classifiquei minhas tarefas')}`);
+  add('recomeco', 'Plano de recomeço', () => `
+    <div class="kicker">Plano de recomeço</div><h1 class="h1">Voltar também é avançar.</h1>
+    ${[['O que eu parei de fazer?', 3], ['Por que eu parei?', 3], ['O que aprendi com isso?', 3], ['Minha versão mínima para voltar', 3]].map(([l, r], i) => ta('RECOM_CAMPO_0' + (i + 1), l, r)).join('')}
+    ${tx('RECOM_CAMPO_05', 'Primeiro passo (hoje)')}${tx('RECOM_CAMPO_06', 'Quando recomeço? (dia e hora)')}
+    ${sec('Checklist')}${['Aceitei que parar faz parte', 'Defini minha versão mínima', 'Dei o primeiro passo'].map((c, i) => ck('RECOM_CHECK_0' + (i + 1), c)).join('')}
+    ${quote('Recomeçar não é voltar ao zero.<br>É voltar com experiência.')}`);
+}
+
+function frases() {
+  add('frases', 'Banco de frases', () => `
+    <div class="kicker">Banco de frases</div><h1 class="h1">60 frases originais.</h1>
+    ${Object.entries(D.BANCO).map(([c, l]) => `<div class="sec">${c}</div>${l.map(t => `<p style="margin-bottom:10px">${t}</p>`).join('')}`).join('')}`);
+  add('citacoes', 'Citações verificáveis', () => `
+    <div class="kicker">Citações verificáveis</div><h1 class="h1">Vozes que vale ouvir.</h1>
+    <p class="mute">Selecionamos poucas citações, apenas com autoria e fonte conhecidas. As demais frases do material são reflexões originais.</p>
+    ${D.CITACOES.map(([q, a, ctx]) => `<div class="card edge"><div style="font-style:italic;font-size:17px">“${q}”</div><div style="margin-top:10px;font-size:11px;letter-spacing:.14em;color:var(--acc);font-weight:500">— ${a.toUpperCase()}</div><div class="mute" style="font-size:12px">${ctx}</div></div>`).join('')}`);
+  add('baixar', 'Baixar PDFs e backup', () => `
+    <div class="kicker">Material</div><h1 class="h1">Baixar PDFs e backup.</h1>
+    ${sec('PDFs')}<div class="list">${[['01_PROJETO_30_DIAS_INTERATIVO', 'Projeto 30 Dias (PDF interativo)'], ['02_PLANNER_FINANCEIRO_INTERATIVO', 'Planner financeiro'], ['03_RASTREADOR_HABITOS_INTERATIVO', 'Rastreador de hábitos'], ['04_PLANNER_SEMANAL_INTERATIVO', 'Planner semanal'], ['05_MATRIZ_PRIORIDADES_INTERATIVA', 'Matriz de prioridades'], ['06_PLANO_RECOMECO_INTERATIVO', 'Plano de recomeço'], ['07_PROJETO_30_DIAS_IMPRESSAO', 'Versão para impressão']].map(([f, t]) => `<a href="pdf/${f}.pdf" download>${t}</a>`).join('')}</div>
+    <p class="mute" style="font-size:13px;margin-top:10px">Para usar as caixas de marcar dos PDFs, abra no Adobe Acrobat Reader. Aqui no site tudo funciona direto no navegador.</p>
+    ${sec('Backup dos seus dados')}
+    <p class="mute">Seus dados ficam só neste aparelho. Salve um backup para guardar ou levar para outro aparelho.</p>
+    <div class="row"><button class="btn small" id="bk">Salvar backup</button><label class="btn small ghost" style="cursor:pointer">Restaurar<input type="file" id="rs" accept="application/json" hidden></label><button class="btn small ghost" id="clr">Apagar tudo</button></div>
+    ${storageOK ? '' : '<div class="warn">Este navegador não permite salvar dados (modo privado?). Abra o site em uma aba normal.</div>'}`, { after: backupInit });
+}
+function backupInit() {
+  $('#bk').onclick = () => { const b = new Blob([JSON.stringify(S, null, 1)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'projeto30dias-backup.json'; a.click(); };
+  $('#rs').onchange = e => { const f = e.target.files[0]; if (!f) return; f.text().then(t => { try { const o = JSON.parse(t); Object.keys(S).forEach(k => delete S[k]); Object.assign(S, o); save(); alert('Backup restaurado.'); render(); } catch (x) { alert('Arquivo inválido.'); } }); };
+  $('#clr').onclick = () => { if (confirm('Apagar todas as suas marcações e respostas deste aparelho?')) { Object.keys(S).forEach(k => delete S[k]); save(); render(); } };
+}
+
+// ---------- montagem da sequência
+(function () {
+  const M = D.MODULOS, before = { 3: 'imp_fin', 5: 'imp_disc', 6: 'imp_proc', 7: 'imp_const', 9: 'imp_ment', 10: 'imp_plan' };
+  impacto('imp_ini');
+  M.forEach(m => { if (before[m.n]) impacto(before[m.n]); modulo(m); if (m.n === 3) planner(); if (m.n === 7) ruins(); });
+  impacto('imp_desafio'); desafio();
+  for (let i = 1; i <= 30; i++) dia(i);
+  tracker(); painel(); finalPg(); ciclo(); bonus(); frases();
+  // posições de navegação (sequência principal)
+  const main = ['home', 'comecar'];
+  R.forEach(r => { if (!['home', 'comecar', 'indice', 'bonus', 'semanal', 'matriz', 'recomeco', 'frases', 'citacoes', 'baixar'].includes(r.id)) main.push(r.id); });
+  ['bonus', 'frases', 'citacoes'].forEach(x => main.push(x));
+  R.main = main;
+  R.forEach(r => { r.idx = ['comecar', 'desafio', 'rastreador', 'painel', 'final', 'ciclo', 'bonus', 'frases', 'planner', 'ruins'].includes(r.id) || r.id.startsWith('m/') ? 1 : 0; });
+  R.find(r => r.id === 'indice').idx = 0;
+})();
+
+// ---------- roteador
+function route() { const h = location.hash.replace(/^#\//, ''); return h || 'home'; }
+function render() {
+  const id = route(), pg = R.find(r => r.id === id) || R[0];
+  const i = R.main.indexOf(pg.id);
+  let nav = '';
+  if (!pg.nonav) {
+    const prev = i > 0 ? R.main[i - 1] : 'home', next = i >= 0 && i < R.main.length - 1 ? R.main[i + 1] : null;
+    const nextT = next ? (R.find(r => r.id === next).imp ? 'Continuar' : 'Próximo') : '';
+    nav = `<div class="nav"><div class="in"><a class="btn small ghost" href="#/${prev}">Voltar</a><span class="mid">${i > 0 ? i + 1 + '/' + R.main.length : ''}</span>${next ? `<a class="btn small" href="#/${next}">${nextT} →</a>` : `<a class="btn small" href="#/home">Início</a>`}</div></div>`;
+  }
+  const top = pg.imp || pg.id === 'home' ? '' : `<div class="top"><a href="#/home">Início</a><span>Projeto 30 Dias</span><a href="#/indice">Índice</a></div>`;
+  $('#app').innerHTML = top + pg.render() + nav;
+  window.scrollTo(0, 0); document.title = (pg.title ? pg.title + ' · ' : '') + 'Projeto 30 Dias';
+  if (pg.after) pg.after();
+  if (pg.id === 'planner') finCalc();
+}
+window.addEventListener('hashchange', render);
+
+// ---------- persistência (delegada: funciona para qualquer campo com data-k)
+document.addEventListener('change', e => {
+  const k = e.target.dataset && e.target.dataset.k; if (!k) return;
+  if (e.target.type === 'checkbox') { S[k] = e.target.checked ? 1 : 0; save(); refreshLive(k); }
+});
+document.addEventListener('input', e => {
+  const t = e.target, k = t.dataset && t.dataset.k; if (!k || t.type === 'checkbox') return;
+  S[k] = t.value; clearTimeout(t._s); t._s = setTimeout(save, 400);
+  if (k.startsWith('FIN_')) finCalc();
+  if (t.dataset.pbin) { const b = document.querySelector(`[data-pb="${k}"]`); if (b) b.style.width = Math.max(0, Math.min(10, num(t.value))) * 10 + '%'; }
+});
+function refreshLive(k) {
+  if (/^D\d\d_MISSAO/.test(k)) { const n = daysDone(); document.querySelectorAll('.segs i').forEach((s, i) => s.classList.toggle('on', i < n)); }
+  const m = /^HABITO_([A-Z]+)_D/.exec(k);
+  if (m) { const c = Array.from({ length: 30 }, (_, i) => S[`HABITO_${m[1]}_D${p2(i + 1)}`] ? 1 : 0).reduce((a, b) => a + b, 0); const e = document.querySelector(`[data-cnt="${m[1]}"]`); if (e) e.textContent = c + '/30'; }
+}
+window.addEventListener('pagehide', () => { try { if (storageOK) localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } });
+render();
+</script>
+</body>
+</html>
